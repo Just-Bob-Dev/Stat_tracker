@@ -10,7 +10,7 @@ router.get('/activities', passport.authenticate('basic', {session: false}), func
     if(err){
       console.log(err);
     }
-    res.json(activity);
+    res.render('index', { statTracker: activity});
   })
 })
 
