@@ -3,6 +3,11 @@ const router = express.Router();
 const Activity = require('../models/activities');
 const mustacheExpress = require('mustache-express');
 
+
+
+
+
+
 router.get('/activities', function(req, res){
   Activity.getActivity(function(err, activity){
     if(err){
@@ -71,8 +76,11 @@ router.post('/activities/:activityId/stats', function(req, res){
 router.delete('/stats/:statsId', function(req, res){
   let actId = req.params.activityId;
   let statId = req.params.statsId;
-  Activity.update( 
-
+  Activity.update(
+    {},
+    {$pull: {stats: {_id: statId}}}
+  ).then(function(activity){
+    res.json(activity);
   })
 })
 
