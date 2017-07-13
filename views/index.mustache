@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Track Stats</title>
+  </head>
+  <body>
+    <h1>Stat Tracker</h1>
+
+    <form method="post" action='/api/activities'>
+      <p> Make A New Activity </p>
+      <label>Activity</label>
+      <input type="text" name="activity" value=''>
+      <label>Description</label>
+      <input type="text" name="description" value=''>
+      <label>Quantity</label>
+      <input type="text" name="quantity" value=''>
+      <button type="submit">create new activity</button>
+    </form>
+
+    <div>
+      {{#statTracker}}
+        <p>Activity: {{activities}} </p>
+        <p>Check Out Your stats: {{link}} </p>
+      {{/statTracker}}
+    </div>
+
+
+  </body>
+</html>
