@@ -2,13 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Activity = require('../models/activities');
 const mustacheExpress = require('mustache-express');
+const passport = require('passport');
 
 
-
-
-
-
-router.get('/activities', function(req, res){
+router.get('/activities', passport.authenticate('basic', {session: false}), function(req, res){
   Activity.getActivity(function(err, activity){
     if(err){
       console.log(err);
@@ -17,7 +14,7 @@ router.get('/activities', function(req, res){
   })
 })
 
-router.post('/activities', function(req, res){
+router.post('/activities', passport.authenticate('basic', {session: false}), function(req, res){
   var activity = req.body;
   Activity.createActivity(activity, function(err, activity){
     if(err){
@@ -27,7 +24,7 @@ router.post('/activities', function(req, res){
   })
 })
 
-router.get('/activities/:activityId', function(req, res){
+router.get('/activities/:activityId', passport.authenticate('basic', {session: false}),function(req, res){
   let actId = req.params.activityId;
   Activity.findOne({_id: actId}).then(function(activity){
     console.log(activity);
@@ -35,7 +32,7 @@ router.get('/activities/:activityId', function(req, res){
   })
 })
 
-router.put('/activities/:activityId', function(req, res){
+router.put('/activities/:activityId', passport.authenticate('basic', {session: false}), function(req, res){
   let actId = req.params.activityId;
   let activity = req.body;
   Activity.updateActivity(actId, activity, {}, function(err, activity){
@@ -46,7 +43,7 @@ router.put('/activities/:activityId', function(req, res){
   })
 })
 
-router.delete('/activities/:activityId', function(req, res){
+router.delete('/activities/:activityId', passport.authenticate('basic', {session: false}),function(req, res){
   let actId = req.params.activityId;
   Activity.deleteActivity(actId, function(err){
     if(err){
@@ -56,7 +53,7 @@ router.delete('/activities/:activityId', function(req, res){
   })
 })
 
-router.post('/activities/:activityId/stats', function(req, res){
+router.post('/activities/:activityId/stats', passport.authenticate('basic', {session: false}),function(req, res){
   let actId = req.params.activityId;
   let stat = req.body;
   Activity.getActivityById(actId, function(err, activity){
@@ -73,7 +70,7 @@ router.post('/activities/:activityId/stats', function(req, res){
   })
 })
 
-router.delete('/stats/:statsId', function(req, res){
+router.delete('/stats/:statsId', passport.authenticate('basic', {session: false}),function(req, res){
   let actId = req.params.activityId;
   let statId = req.params.statsId;
   Activity.update(
@@ -83,11 +80,6 @@ router.delete('/stats/:statsId', function(req, res){
     res.json(activity);
   })
 })
-
-
-
-
-
 
 
 module.exports = router;
